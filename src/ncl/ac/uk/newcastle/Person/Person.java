@@ -56,7 +56,7 @@ public final class Person {
         return date;
     }
 
-    public  boolean equals(final Object obj){
+    public boolean equals(final Object obj){
         //reflexivity
         if (this == obj){
             return true;
@@ -67,11 +67,11 @@ public final class Person {
         }
 
         Person p = (Person) obj;
-
+        
         return (this.dateOfBirth == null ?
                 p.getAge() == null : this.dateOfBirth.equals(p.getAge()))
                 && (this.firstName == null ?
-                p.getFirstName() == null : firstName.equals(p.getSecondName()))
+                p.getFirstName() == null : firstName.equals(p.getFirstName()))
                 && (this.secondName == null ?
                 p.getSecondName() == null : this.secondName.equals(p.getSecondName()));
     }

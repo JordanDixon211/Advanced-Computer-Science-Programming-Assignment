@@ -30,7 +30,8 @@ public class personTest {
 
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		Person p2 = new Person("Jordan", "Dixon", calender, true);	
+		assertEquals(p.equals(p2), p2.hashCode() == p.hashCode());
 	}
 
 
@@ -51,9 +52,31 @@ public class personTest {
 		assertEquals(calender.getTime(), p.getAge());
 	}
 
+
 	@Test
-	public void testEqualsObject() {
-		fail("Not yet implemented");
+	public void testEqualsReflexive() {
+		fail();
+
+	}
+
+
+	@Test
+	public void testEqualsSymmetric() {
+		fail();
+
+	}
+
+
+	@Test
+	public void testEqualsTransitive() {
+		fail();
+
+	}
+
+
+	@Test
+	public void testEqualsConsistant() {
+		fail();
 	}
 
 	@Test
@@ -61,5 +84,4 @@ public class personTest {
 		String expected = "First Name: " + p.getFirstName() + "\tSecond Name: " + p.getSecondName() + "\tdate of birth: " + p.getAge().toString() + "\n"; 
 		assertEquals(expected, p.toString());
 	}
-
 }
