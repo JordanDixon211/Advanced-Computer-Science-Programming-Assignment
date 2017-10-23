@@ -55,28 +55,83 @@ public class personTest {
 
 	@Test
 	public void testEqualsReflexive() {
-		fail();
+		GregorianCalendar calender = new GregorianCalendar();
+		calender.set(1996, 1, 28);
+		
+		Person produceFalse = new Person("k", "Dixon", calender, true);
+		
+		assertTrue(p.equals(p));
+		assertFalse(p.equals(produceFalse));
+
 
 	}
 
 
 	@Test
 	public void testEqualsSymmetric() {
-		fail();
+		GregorianCalendar calender = new GregorianCalendar();
+		calender.set(1996, 1, 28);
+		
+		Person x = new Person("Jordan", "Dixon", calender, true);
+		
+		GregorianCalendar calenderFalse = new GregorianCalendar();
+		calender.set(1996, 1, 28);
+		
+		Person produceFalse = new Person("k", "Dixon", calender, true);
+		
+		assertTrue(p.equals(x));
+		assertTrue(x.equals(p));
 
+		
+		assertFalse(produceFalse.equals(x));
+		assertFalse(x.equals(produceFalse));
 	}
 
 
 	@Test
 	public void testEqualsTransitive() {
-		fail();
-
+		GregorianCalendar calender = new GregorianCalendar();
+		calender.set(1996, 1, 28);
+		
+		Person x = new Person("Jordan", "Dixon", calender, true);
+		
+		GregorianCalendar calender2 = new GregorianCalendar();
+		calender.set(1996, 1, 28);
+		
+		Person y = new Person("Jordan", "Dixon", calender, true);
+		
+		GregorianCalendar calenderFalse = new GregorianCalendar();
+		calender.set(1996, 1, 28);
+		
+		Person produceFalse = new Person("k", "Dixon", calender, true);
+		
+		assertTrue(x.equals(y));
+		assertTrue(y.equals(this.p));
+		assertTrue(x.equals(this.p));
+		
+		assertFalse(produceFalse.equals(y));
+		assertTrue(y.equals(this.p));
+		assertFalse(produceFalse.equals(this.p));
 	}
 
 
 	@Test
 	public void testEqualsConsistant() {
-		fail();
+		GregorianCalendar calender = new GregorianCalendar();
+		calender.set(1996, 1, 28);
+		
+		Person x = new Person("Jordan", "Dixon", calender, true);
+		assertTrue(p.equals(x));
+		assertTrue(p.equals(x));
+		assertTrue(p.equals(x));
+		
+		
+
+	}
+	
+	@Test
+	public void testNonNullReferance() {
+		assertFalse(this.p.equals(null));
 	}
 
 	@Test

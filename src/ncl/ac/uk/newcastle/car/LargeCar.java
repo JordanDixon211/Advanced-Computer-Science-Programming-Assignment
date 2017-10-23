@@ -1,9 +1,9 @@
 package ncl.ac.uk.newcastle.car;
 
-public final class  LargeCar extends AbstractCar {
+public final class  LargeCar extends CarFactory {
     private final int capacity = 60;
-    public LargeCar(String registrationNumber) {
-        super(registrationNumber);
+     LargeCar(String registrationNumber) {
+    	super(registrationNumber);
     }
 
     @Override
