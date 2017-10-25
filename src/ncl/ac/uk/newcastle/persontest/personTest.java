@@ -12,7 +12,8 @@ import org.junit.Test;
 import ncl.ac.uk.newcastle.Person.Person;
 
 public class personTest {
-	Calendar calender;
+	Calendar dob;
+	Calendar dateOFIssue;
 	Person p;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -21,16 +22,19 @@ public class personTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.calender = new GregorianCalendar();
-		this.calender.set(1996, 1, 28);
+		this.dob = new GregorianCalendar();
+		this.dob.set(1980, 1, 28);
 		
-		this.p = new Person("Jordan", "Dixon", calender, true);
+		this.dateOFIssue = new GregorianCalendar();
+		this.dateOFIssue.set(1996, 1, 28);
+		
+		this.p = new Person("Jordan", "Dixon", dob, dateOFIssue);
 		
 	}
 
 	@Test
 	public void testHashCode() {
-		Person p2 = new Person("Jordan", "Dixon", calender, true);	
+		Person p2 = new Person("Jordan", "Dixon", dob, dateOFIssue);	
 		assertEquals(p.equals(p2), p2.hashCode() == p.hashCode());
 	}
 
@@ -49,7 +53,7 @@ public class personTest {
 
 	@Test
 	public void testGetAge() {
-		assertEquals(calender.getTime(), p.getAge());
+		assertEquals(dob.getTime(), p.getAge());
 	}
 
 
@@ -58,7 +62,7 @@ public class personTest {
 		GregorianCalendar calender = new GregorianCalendar();
 		calender.set(1996, 1, 28);
 		
-		Person produceFalse = new Person("k", "Dixon", calender, true);
+		Person produceFalse = new Person("k", "Dixon", calender, calender);
 		
 		assertTrue(p.equals(p));
 		assertFalse(p.equals(produceFalse));
@@ -70,14 +74,14 @@ public class personTest {
 	@Test
 	public void testEqualsSymmetric() {
 		GregorianCalendar calender = new GregorianCalendar();
-		calender.set(1996, 1, 28);
+		calender.set(1980, 1, 28);
 		
-		Person x = new Person("Jordan", "Dixon", calender, true);
+		Person x = new Person("Jordan", "Dixon", calender, calender);
 		
 		GregorianCalendar calenderFalse = new GregorianCalendar();
-		calender.set(1996, 1, 28);
+		calender.set(1980, 1, 28);
 		
-		Person produceFalse = new Person("k", "Dixon", calender, true);
+		Person produceFalse = new Person("k", "Dixon", calender, calender);
 		
 		assertTrue(p.equals(x));
 		assertTrue(x.equals(p));
@@ -91,19 +95,19 @@ public class personTest {
 	@Test
 	public void testEqualsTransitive() {
 		GregorianCalendar calender = new GregorianCalendar();
-		calender.set(1996, 1, 28);
+		calender.set(1980, 1, 28);
 		
-		Person x = new Person("Jordan", "Dixon", calender, true);
+		Person x = new Person("Jordan", "Dixon", calender, calender);
 		
 		GregorianCalendar calender2 = new GregorianCalendar();
-		calender.set(1996, 1, 28);
+		calender.set(1980, 1, 28);
 		
-		Person y = new Person("Jordan", "Dixon", calender, true);
+		Person y = new Person("Jordan", "Dixon", calender, calender);
 		
 		GregorianCalendar calenderFalse = new GregorianCalendar();
-		calender.set(1996, 1, 28);
+		calender.set(1980, 1, 28);
 		
-		Person produceFalse = new Person("k", "Dixon", calender, true);
+		Person produceFalse = new Person("k", "Dixon", calender, calender);
 		
 		assertTrue(x.equals(y));
 		assertTrue(y.equals(this.p));
@@ -118,13 +122,12 @@ public class personTest {
 	@Test
 	public void testEqualsConsistant() {
 		GregorianCalendar calender = new GregorianCalendar();
-		calender.set(1996, 1, 28);
+		calender.set(1980, 1, 28);
 		
-		Person x = new Person("Jordan", "Dixon", calender, true);
+		Person x = new Person("Jordan", "Dixon", calender, null);
 		assertTrue(p.equals(x));
 		assertTrue(p.equals(x));
 		assertTrue(p.equals(x));
-		
 		
 
 	}
@@ -138,5 +141,13 @@ public class personTest {
 	public void testToString() {
 		String expected = "First Name: " + p.getFirstName() + "\tSecond Name: " + p.getSecondName() + "\tdate of birth: " + p.getAge().toString() + "\n"; 
 		assertEquals(expected, p.toString());
+	}
+	
+	
+	
+
+	@Test
+	public void testHasDrivingLicence() {
+		assertEquals(true, p.HasDrivingLicence());
 	}
 }

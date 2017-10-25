@@ -1,20 +1,29 @@
 package ncl.ac.uk.newcastle.car;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import ncl.ac.uk.newcastle.fuelcalculator.FuelCalculator;
 import ncl.ac.uk.newcastle.fuelcalculator.IFuel;
+import ncl.ac.uk.newcastle.rentable.Rentable;
 
 public abstract class CarFactory implements Car, IFuel {
     private final String registration;
     private final String firstRegistrationPart;
     private final String secondRegistrationPart;
-
+    private boolean Availablity = true;
     private int fuelLoad = 0;
     private final FuelCalculator fuelCalculator = new FuelCalculator();
+    private LocalDate contractStartDate;
+    private Date contractEndDate;
     private static Map<String, Car> carInstances = new HashMap<String, Car>();
     //defensive Programming, ensuring the reg number is correctly fortmatted. if not correctly formatted then throw illegalArg exception.
     CarFactory(String registrationNumber) {
@@ -78,11 +87,17 @@ public abstract class CarFactory implements Car, IFuel {
     	   String finalSplit[]= registrationNumber.split(" ");
     	   this.firstRegistrationPart = finalSplit[0];
     	   this.secondRegistrationPart = finalSplit[1];
+    	   
+    	
 
     }else {
  	   throw new IllegalArgumentException("Registration format is incorrect, needs to be 2 letters followed by 2 numbers space then 3 more letters");
     }   
    }
+    
+    public static Collection<Car> getAllCarInstances(){
+    	return carInstances.values();
+    }
 
     @Override
     public String getRegistration() {
@@ -160,4 +175,49 @@ public abstract class CarFactory implements Car, IFuel {
     	}
       return null;
     }
+    
+
+	@Override
+	public boolean isAvailable() {
+		// TODO Auto-generated method stub
+		return Availablity;
+	}
+	
+	@Override
+	public boolean returned() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public void setAvailablity(boolean avi) {
+		this.Availablity = avi;
+	}
+	
+	@Override
+	public void setStartDate(LocalDate cal) {
+		// TODO Auto-generated method stub
+		this.contractStartDate = cal;
+	}
+
+	@Override
+	public void setEndDate(Calendar cal) {
+		// TODO Auto-generated method stub
+		this.contractEndDate = new Date();
+		contractEndDate.setTime(cal.getTime().getTime());
+	}
+	
+    @Override
+	public Date contractEndDate() {
+		// TODO Auto-generated method stub
+    	Date date = new Date();
+    	date.setTime(this.contractEndDate.getTime());
+		return date;
+	}
+
+	@Override
+	public LocalDate contractStartDate() {
+		// TODO Auto-generated method stub
+		return contractStartDate;	
+		}
 }

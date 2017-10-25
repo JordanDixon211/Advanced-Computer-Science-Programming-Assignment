@@ -12,8 +12,9 @@ public final class Person {
     private final String secondName;
     private final Date dateOfBirth;
     private final DrivingLicence drivingLicense;
-    
-    public Person(String firstName,String secondName ,final Calendar dateOfBirth,final boolean hasDrivingLicence){
+    private final boolean hasDrivingLicence;
+
+    public Person(String firstName,String secondName ,final Calendar dateOfBirth, final Calendar dateOfIssue){
     	if(firstName == null) {
     		firstName = "";
     	}
@@ -31,10 +32,12 @@ public final class Person {
     		throw new IllegalStateException("fields are blank.");
         }
         
-        if(hasDrivingLicence) {
-        this.drivingLicense = new DrivingLicence(this.firstName , this.secondName, this.dateOfBirth);
+        if(dateOfIssue != null) {
+        this.drivingLicense = new DrivingLicence(this.firstName , this.secondName, this.dateOfBirth,dateOfIssue);
+        hasDrivingLicence =true;
         }else {
         	drivingLicense = null;
+            hasDrivingLicence =false;
         	}
     	}else {
     		throw new IllegalStateException("fields cannot be blank");
@@ -77,7 +80,15 @@ public final class Person {
     }
 
 
-    @Override
+	public DrivingLicence getDrivingLicense() {
+		return drivingLicense;
+	}
+
+	public boolean HasDrivingLicence() {
+		return hasDrivingLicence;
+	}
+
+	@Override
     public  int hashCode(){
         int hc = 17;
         hc = 37 * hc + (this.firstName == null ? 0 : firstName.hashCode())

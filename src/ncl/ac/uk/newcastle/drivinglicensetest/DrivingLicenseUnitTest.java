@@ -17,21 +17,26 @@ import ncl.ac.uk.newcastle.drivinglicense.DrivingLicence;
 public class DrivingLicenseUnitTest {
 	static DrivingLicence dl;
 	static Calendar calender;
+	static Calendar dateOFIssue;
+
 	
 	//testing the drivers License Class itself.
 	@BeforeClass
 	public static void setUp() throws Exception {
 		calender = new GregorianCalendar();
-		calender.set(1996, 1, 28);
+		calender.set(1980, 1, 28);
 		Date date = calender.getTime();
 		
-		Person p = new Person("Jordan" , "Dixon", calender, false);
-		dl = new DrivingLicence(p.getFirstName() ,p.getSecondName(), date);
+		dateOFIssue = new GregorianCalendar();
+		dateOFIssue.set(1996, 1, 28);
+		
+		Person p = new Person("Jordan" , "Dixon", calender, dateOFIssue);
+		dl = new DrivingLicence(p.getFirstName() ,p.getSecondName(), date, dateOFIssue);
 	}
 
 	@Test 
 	public void testgetLicenceNumber() {
-		String expected = "JD-1996-1";
+		String expected = "JD-1980-2";
 		assertEquals(expected , dl.getLicenceNumber().toString());
 	}
 
@@ -44,7 +49,7 @@ public class DrivingLicenseUnitTest {
 	
 	@Test (expected = IllegalStateException.class)
 	public void testNullParameterConstructor() {
-		DrivingLicence dl2 = new DrivingLicence(null,null, null);
+		DrivingLicence dl2 = new DrivingLicence(null,null, null,null);
 	}
 	
 	@Test
@@ -62,4 +67,21 @@ public class DrivingLicenseUnitTest {
 		
 		assertEquals(expected, dl.toString());
 	}
+	
+	@Test
+	public void getYearOfBirth() {
+		String expected = "1996";
+		DrivingLicence dl = DrivingLicence.valueOf("JD-1996-02");
+		
+		assertEquals(expected, dl.getYearOfBirth());
+	}
+	
+	@Test
+	public void getUniqueNumber() {
+		String expected = "02";
+		DrivingLicence dl = DrivingLicence.valueOf("JD-1996-02");
+		
+		assertEquals(expected, dl.getUniqueNumber());
+	}
+
 }

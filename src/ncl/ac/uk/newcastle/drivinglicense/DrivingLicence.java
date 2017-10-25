@@ -18,7 +18,7 @@ public final class DrivingLicence {
     private final String formatter = "-";
     private static int count = 1;
 
-    public DrivingLicence(String personFirstName,String personSecondName,final Date dateOfBirth) {
+    public DrivingLicence(String personFirstName,String personSecondName,final Date dateOfBirth, Calendar dateOfIssue) {
     	if(personFirstName == null) {
     		personFirstName = "";
     	}
@@ -28,13 +28,13 @@ public final class DrivingLicence {
     	}
     	
     	
-        if (personFirstName.trim().length() > 0 && personSecondName.trim().length() > 0 && dateOfBirth != null) {
+        if (personFirstName.trim().length() > 0 && personSecondName.trim().length() > 0 && dateOfBirth != null && dateOfIssue != null) {
         	initals = personFirstName.trim().substring(0, 1) + personSecondName.trim().substring(0, 1);
         	
         	String [] splitDateOfBirth = dateOfBirth.toString().split(" ");
             yearOfBirth = splitDateOfBirth[5];
             
-        	dateOfIssue = Calendar.getInstance().getTime();    	          
+            this.dateOfIssue = dateOfIssue.getTime();
             this.uniqueNumber = Integer.toString(count); 	
             this.licenceNumber = this.initals + this.formatter + this.yearOfBirth + this.formatter + this.uniqueNumber;            
             count++;
@@ -81,6 +81,18 @@ public final class DrivingLicence {
 
         return new DrivingLicence(first, middle, last);
     }
+
+	public String getYearOfBirth() {
+		return yearOfBirth;
+	}
+
+	public String getUniqueNumber() {
+		return uniqueNumber;
+	}
+
+	private int getYearOfBirthPlacement() {
+		return yearOfBirthPlacement;
+	}
 
 
 
