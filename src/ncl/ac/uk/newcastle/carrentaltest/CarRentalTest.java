@@ -6,10 +6,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class CarRentalTest {
+import ncl.ac.uk.newcastle.carrental.CarRental;
 
+public class CarRentalTest {
+	static CarRental carRental;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		carRental = new CarRental(20, 10, true);
 	}
 
 	@Before
