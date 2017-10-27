@@ -56,7 +56,21 @@ public class CarRentalTest {
 
 	@Test
 	public void testGetRentedCars() {
-		assertEquals(carRental.getRentedCars().size(), 2);
+		CarRental carRental = new CarRental(20, 10, true);
+
+		assertEquals(carRental.getRentedCars().size(), 0);
+		GregorianCalendar dob = new GregorianCalendar();
+		dob.set(1980, 1, 28);
+		
+		GregorianCalendar dateOFIssue = new GregorianCalendar();
+		dateOFIssue.set(1996, 1, 28);
+		
+		Person p = new Person("John", "Fred", dob, dateOFIssue);
+		
+		carRental.issue(p, p.getDrivingLicense(), "SmallCar");
+		assertEquals(carRental.getRentedCars().size(), 1);
+
+		
 	}
 
 	@Test
@@ -131,7 +145,29 @@ public class CarRentalTest {
 
 	@Test
 	public void testTerminateRental() {
-		fail("Not yet implemented");
+		GregorianCalendar dob = new GregorianCalendar();
+		dob.set(2000, 1, 28);
+		
+		GregorianCalendar dateOFIssue = new GregorianCalendar();
+		dateOFIssue.set(1996, 1, 28);
+		
+		Person p = new Person("viv", "Fred", dob, dateOFIssue);
+		
+		Car checkEquality = carRental.issue(p, p.getDrivingLicense(), "SmallCar");
+		assertSame(carRental.getCar(p), checkEquality);
+		
+		
+		Person p2 = new Person("viv", "Fred", dob, dateOFIssue);
+		
+		Car checkEquality2 = carRental.issue(p2, p2.getDrivingLicense(), "LargeCar");
+		assertSame(null, checkEquality2);
+		
+		
+		assertSame(carRental.getCar(p), checkEquality);
+		
+		carRental.terminateRental(p);
+		//will be null due to be terminated.
+		assertSame(carRental.getCar(p), null);
 	}
 
 }
