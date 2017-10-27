@@ -7,6 +7,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Person class creates a Person, with the option of having a drivers licence.
+ * Equality is based on if the person has firstName and second name and same date of 
+ * birth 
+ * 
+ * Hashcode used are based on the same variables.
+ * since a person can have a drivers licence a drivers licence object 
+ * is used in this class instead of inheritance.
+ **/
 public final class Person {
     private final String firstName;
     private final String secondName;
@@ -14,6 +23,15 @@ public final class Person {
     private final DrivingLicence drivingLicense;
     private final boolean hasDrivingLicence;
 
+	/**
+	 * Constructor, uses defensive programming to check first and second names are equal to something,
+	 * if dateOfIssue is not equal to null it means that the person must have a drivers licence.
+	 * @param Firstname of person
+	 * @param Secondname of person
+	 * @param dateofbirth of person
+	 * @param dateofissue of their drivers licence
+	 * @throws IllegalStateException
+	 **/
     public Person(String firstName,String secondName ,final Calendar dateOfBirth, final Calendar dateOfIssue){
     	if(firstName == null) {
     		firstName = "";
@@ -44,14 +62,24 @@ public final class Person {
     	}
     }
 
+	/**
+	 * @return person firstName
+	 * **/
     public  String getFirstName() {
         return firstName;
     }
 
+	/**
+	 * @return person secondname
+	 * **/
     public  String getSecondName() {
         return secondName;
     }
 
+    /** makes a copy of person's date of birth and returns 
+     * it to the caller
+	 * @return person age
+	 * **/
     public  Date getAge() {
         Date date = new Date();
         date.setTime(dateOfBirth.getTime());
@@ -59,6 +87,14 @@ public final class Person {
         return date;
     }
 
+    /** 
+     * Overridden the equality operator in Object base class 
+     * checks if two people are equal based on 
+     * their first name, second name and date of birth.
+     * if these are the same they are then equal to each other.
+     * @param obj object to be compared
+	 * @return boolean true if they're equal false if not
+	 * **/
     public boolean equals(final Object obj){
         //reflexivity
         if (this == obj){
@@ -79,15 +115,26 @@ public final class Person {
                 p.getSecondName() == null : this.secondName.equals(p.getSecondName()));
     }
 
-
+    /** returns a copy of the driving licence for a person.
+	 * @return persons driving licence
+	 * **/
 	public DrivingLicence getDrivingLicense() {
 		return drivingLicense;
 	}
 
+	/**
+	 * returns boolean true if person does have a driving licence
+	 * @return hasDrivingLicence
+	 * **/
 	public boolean HasDrivingLicence() {
 		return hasDrivingLicence;
 	}
 
+	/**
+	 * adds hashcode's of the firstname, secondname and dateOfBirth together
+	 * to get a unique hashcode of person Object
+	 * @return hc hashcode for the 3 values
+	 * **/
 	@Override
     public  int hashCode(){
         int hc = 17;
@@ -99,6 +146,10 @@ public final class Person {
     }
 
 
+	/**
+	 * Returns string representation of a person 
+	 * @return String toString
+	 * **/
     @Override
     public  String toString(){
         return String.format("First Name: %s\tSecond Name: %s\tdate of birth: %s\n",this.firstName, this.secondName, this.dateOfBirth.toString());

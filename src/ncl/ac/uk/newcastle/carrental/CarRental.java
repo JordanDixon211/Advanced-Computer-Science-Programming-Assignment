@@ -7,18 +7,19 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import ncl.ac.uk.newcastle.Person.Person;
 import ncl.ac.uk.newcastle.car.*;
 import ncl.ac.uk.newcastle.drivinglicense.DrivingLicence;
 
+/**
+ * Class witch creates a car Rental Application, 
+ * Provides services to add cars to the rental, along 
+ * with managing the amount of cars Out for rental.
+ * **/
 public final class CarRental {
-	//availableCars
-	//getRentedCars
-	//getCar
-	//issueCar
-	//terminateRental
 	private final Map<Person, Car> carRentals = new HashMap<>();
 	private final Map<Person, Integer> fuelPay = new HashMap<>();
 
@@ -37,28 +38,48 @@ public final class CarRental {
 	public CarRental(final int amountOfLargeCars,final int amountOfSmallCars, boolean autoGiveRegistration) {
 		this.amountOfLargeCars = amountOfLargeCars;
 		this.amountOfSmallCars = amountOfSmallCars;
+		Random  rand = new Random ();
 		
+		   final String alphabet = "ABCDEFGHIKLMNOPQRSTVXYZ";
+		   final int N = alphabet.length();
+
+		    Random r = new Random();
+
 		if(autoGiveRegistration) {
-			for(int i = 0; i <= amountOfSmallCars;i++) {
-				String firstPart = "AA"; 
-				int thirdNum = i;
-				int secondNum = i;
+			for(int i = 0; i < amountOfSmallCars;i++) {
+				char firstChar = alphabet.charAt(r.nextInt(N));
+				char secondChar = alphabet.charAt(r.nextInt(N));
+
+				int thirdNum = rand.nextInt(9) + 0;
+				int secondNum = rand.nextInt(9) + 0;
 				
-				String last = "HXE";
+				String FirstPart = Character.toString(firstChar) + Character.toString(secondChar);
+				char forthChar = alphabet.charAt(r.nextInt(N));
+				char fithChar = alphabet.charAt(r.nextInt(N));
+				char sixthChar = alphabet.charAt(r.nextInt(N));
+
+				String last = Character.toString(forthChar) + Character.toString(fithChar) + Character.toString(sixthChar);
 				
-				String registration = firstPart + Integer.toString(thirdNum) + Integer.toString(secondNum) + " " + last;
+				String registration = FirstPart + Integer.toString(thirdNum) + Integer.toString(secondNum) + " " + last;
 				Car car = CarFactory.getInstance("SmallCar", registration);
 				SmallCarsInStock++;
 			}
 			
-			for(int i = 0; i <= amountOfLargeCars;i++) {
-				String firstPart = "BB"; 
-				int thirdNum = i;
-				int secondNum = i;
+			for(int i = 0; i < amountOfLargeCars;i++) {
+				char firstChar = alphabet.charAt(r.nextInt(N));
+				char secondChar = alphabet.charAt(r.nextInt(N));
+
+				int thirdNum = rand.nextInt(9) + 0;
+				int secondNum = rand.nextInt(9) + 0;
 				
-				String last = "HXE";
+				String FirstPart = Character.toString(firstChar) + Character.toString(secondChar);
+				char forthChar = alphabet.charAt(r.nextInt(N));
+				char fithChar = alphabet.charAt(r.nextInt(N));
+				char sixthChar = alphabet.charAt(r.nextInt(N));
+
+				String last = Character.toString(forthChar) + Character.toString(fithChar) + Character.toString(sixthChar);
 				
-				String registration = firstPart + Integer.toString(thirdNum) + Integer.toString(secondNum) + " " + last;
+				String registration = FirstPart + Integer.toString(thirdNum) + Integer.toString(secondNum) + " " + last;
 				Car car = CarFactory.getInstance("LargeCar", registration);
 				LargeCarsInStock++;
 			}
@@ -96,6 +117,12 @@ public final class CarRental {
 		}
 	}
 	
+	/**
+	 * calculates amount of cars that are not currently rented out. 
+	 * looping through the instances set in the CarFactory.
+	 * @param typeOfCar is the type of car user wishes to have
+	 * @return return the amount of cars available. 
+	 * **/
 	public int availableCars(final String typeOfCar) {
 		int count = 0;
 		if(typeOfCar.equals("LargeCar")) {
@@ -119,10 +146,22 @@ public final class CarRental {
 		return -1;
 	}
 	
+	/**
+	 * gets all the map's values, as these are the cars rented
+	 * @return returns the maps values as a new set so user cannot change the object.
+	 * **/
 	public Set<Car> getRentedCars(){
 		return new HashSet<Car>(carRentals.values());
 	}
 	
+	/**
+	 * gets a car that is currently rented by a person
+	 * uses maps get to get a car out of the map.
+	 * if none sound getOrDefault will be used as it will return a car Object
+	 * which is = to null;
+	 * @param Person who is currently stored in the rentals map
+	 * @return return the car associated with that person
+	 * **/
 	public Car getCar(final Person p) {
 		Car rentedCar = carRentals.getOrDefault(p, null);
 		if(rentedCar != null) {
@@ -131,6 +170,24 @@ public final class CarRental {
 		return null;
 	}
 	
+	/**
+	 * This Method will issue a car to a given person, giving that a perosn
+	 * passes the given requirements such as a person who wants a small
+	 * car has to have a drivingLicence for at least a year and must be at least 20
+	 * For A large car age must be 25 and have a driving Licence for at least 5 years. 
+	 * 
+	 * once passing these requirements the person will be assoicated with a car given that 
+	 * there are cars available for this person. a contract which will start now 
+	 * will be given for the car, and a default time of 10 days will be given before
+	 * car has to be returned.
+	 *
+	 * returns null if something goes wrong, or if a car cannot be issued
+	 * 
+	 * @param Person Object who will be added to associate the car to a person
+	 * @param DrivingLicence associated with that person is passed using person.getDrivingLicence Method.
+	 * @param TypeOfCar caller passes in a string representation of the car they would like.
+	 * @return return the car associated with that person
+	 * **/
 	public Car issue(final Person p,final DrivingLicence dl,final String typeOfCar) {
 		LocalDate date = LocalDate.now();
 		if(carRentals.containsKey(p) || !(p.HasDrivingLicence())) {
@@ -159,15 +216,14 @@ public final class CarRental {
 						if(car instanceof SmallCar && car.isAvailable()) {
 							 car.setAvailablity(false);
 							 car.setStartDate(date);
-							 Calendar endContract = new GregorianCalendar(date.getYear(), date.getMonthValue(), date.getDayOfMonth() + 10);
-
+							 Calendar endContract = new GregorianCalendar(date.getYear(), date.getMonthValue(), date.getDayOfMonth() + standardContract);
 							  car.setEndDate(endContract);
 							  
 							  if(!car.isFull()) {
 								  car.addFuel();
 							  }							  
-						
-							  return carRentals.put(p, car);
+							  carRentals.put(p, car);
+							  return carRentals.get(p);
 						}
 					}
 				}else {
@@ -198,14 +254,15 @@ public final class CarRental {
 						if(car instanceof LargeCar && car.isAvailable()) {
 						  car.setAvailablity(false);
 						  car.setStartDate(date);
-						 Calendar endContract = new GregorianCalendar(date.getYear(), date.getMonthValue(), date.getDayOfMonth() + 10);
+						 Calendar endContract = new GregorianCalendar(date.getYear(), date.getMonthValue(), date.getDayOfMonth() + standardContract);
 
 						  car.setEndDate(endContract);
 						  
 						  if(!car.isFull()) {
 							  car.addFuel();
 						  }
-						  return  carRentals.put(p, car);
+						  carRentals.put(p, car);
+						  return carRentals.get(p);
 
 						}
 					}
@@ -220,7 +277,11 @@ public final class CarRental {
 	return null;
 	}
 	
-	
+	/**
+	 * 
+	 * @param Person Object who will be added to associate the car to a person
+	 * @return return the fuel left to refuel the car
+	 * **/
 	public int terminateRental(Person p) {
 		if((carRentals.containsKey(p))) {
 			Car car = carRentals.get(p);
